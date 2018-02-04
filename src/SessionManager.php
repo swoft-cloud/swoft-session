@@ -4,11 +4,12 @@ namespace Swoft\Session;
 
 use Swoft\App;
 use Swoft\Bean\Annotation\Bean;
+use Swoft\Bean\Annotation\Scope;
 use Swoft\Session\Handler\FileSessionHandler;
 use Swoft\Session\Handler\RedisSessionHandler;
 
 /**
- * @Bean()
+ * @Bean(scope=Scope::PROTOTYPE)
  */
 class SessionManager
 {
@@ -27,6 +28,11 @@ class SessionManager
      * @var array
      */
     protected $config = [];
+
+    /**
+     * @var SessionInterface
+     */
+    protected $session;
 
     /**
      * Create a handler by config
@@ -84,6 +90,24 @@ class SessionManager
     public function setConfig(array $config): self
     {
         $this->config = $config;
+        return $this;
+    }
+
+    /**
+     * @return SessionInterface
+     */
+    public function getSession(): SessionInterface
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param SessionInterface $session
+     * @return static
+     */
+    public function setSession($session): self
+    {
+        $this->session = $session;
         return $this;
     }
 
