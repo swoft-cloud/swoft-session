@@ -3,7 +3,7 @@
 namespace Swoft\Session\Bootstrap;
 
 use Swoft\Bean\Annotation\BootBean;
-use Swoft\Core\BootBeanIntereface;
+use Swoft\Core\BootBeanInterface;
 
 /**
  * @BootBean()
