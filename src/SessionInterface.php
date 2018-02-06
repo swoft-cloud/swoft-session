@@ -76,7 +76,7 @@ interface SessionInterface
      * Get an item from the session.
      *
      * @param  string $key
-     * @param  mixed $default
+     * @param  mixed  $default
      * @return mixed
      */
     public function get($key, $default = null);
@@ -85,7 +85,7 @@ interface SessionInterface
      * Put a key / value pair or array of key / value pairs in the session.
      *
      * @param  string|array $key
-     * @param  mixed $value
+     * @param  mixed        $value
      * @return void
      */
     public function put($key, $value = null);
@@ -126,14 +126,14 @@ interface SessionInterface
      * @param  bool $destroy
      * @return bool
      */
-    public function migrate($destroy = false);
+    public function migrate($destroy = false): bool;
 
     /**
      * Determine if the session has been started.
      *
      * @return bool
      */
-    public function isStarted();
+    public function isStarted(): bool;
 
     /**
      * Get the previous URL from the session.
@@ -167,7 +167,7 @@ interface SessionInterface
     /**
      * Set the request on the handler instance.
      *
-     * @param  \Swoft\Web\Request $request
+     * @param  \Swoft\Http\Message\Server\Request $request
      * @return void
      */
     public function setRequestOnHandler($request);

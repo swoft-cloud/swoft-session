@@ -76,10 +76,12 @@ class SessionMiddleware implements MiddlewareInterface
     {
         $this->sessionHandled = true;
 
+        $isSessionAvailable = $request instanceof Request && $this->sessionConfigured();
+
         // If a session driver has been configured, we will need to start the session here
         // so that the data is ready for an application. Note that the Laravel sessions
         // do not make use of PHP "native" sessions in any way since they are crappy.
-        if ($request instanceof Request && $this->sessionConfigured()) {
+        if ($isSessionAvailable) {
             $this->sessionManager->setSession($session = $this->startSession($request));
             // TODO move collect garbage to timer
             $this->collectGarbage($session);
@@ -90,7 +92,7 @@ class SessionMiddleware implements MiddlewareInterface
         // Again, if the session has been configured we will need to close out the session
         // so that the attributes may be persisted to some storage medium. We will also
         // add the session identifier cookie to the application response headers now.
-        if ($request instanceof Request && $this->sessionConfigured()) {
+        if ($isSessionAvailable) {
             $this->storeCurrentUrl($request, $session);
 
             $response = $this->addCookieToResponse($request, $response, $session);
@@ -160,6 +162,7 @@ class SessionMiddleware implements MiddlewareInterface
      * @param Response         $response
      * @param SessionInterface $session
      * @return Response
+     * @throws \InvalidArgumentException
      */
     private function addCookieToResponse(Request $request, Response $response, SessionInterface $session): Response
     {

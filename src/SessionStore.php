@@ -183,9 +183,8 @@ class SessionStore implements SessionInterface
     {
         ! \is_array($key) && $key = [$key => $value];
         foreach ($key as $k => $v) {
-            ArrayHelper::set($this->attributes, $k, $v);
+            $k && ArrayHelper::set($this->attributes, $k, $v);
         }
-
     }
 
     /**
@@ -329,7 +328,7 @@ class SessionStore implements SessionInterface
     {
         $data = $this->handler->read($this->getId());
         if ($data) {
-            $data = @unserialize($data, null);
+            $data = @unserialize($data);
             if ($data === false || null === $data || ! \is_array($data)) {
                 $data = [];
             }

@@ -1,12 +1,14 @@
 <?php
 if (! function_exists('session')) {
     /**
-     * Get SessionManager
+     * Get Session
      *
-     * @return \Swoft\Session\SessionManager
+     * @return \Swoft\Session\SessionInterface
      */
     function session()
     {
-        return \Swoft\App::getBean('sessionManager');
+        /** @var \Swoft\Session\SessionManager $sessionManager */
+        $sessionManager = \Swoft\App::getBean('sessionManager');
+        return $sessionManager->getSession();
     }
 }

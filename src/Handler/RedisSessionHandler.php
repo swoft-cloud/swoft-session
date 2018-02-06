@@ -1,14 +1,14 @@
 <?php
 
-namespace Swoft\Web\Session\Handler;
+namespace Swoft\Session\Handler;
 
 use Swoft\Bean\Annotation\Bean;
-use Swoft\Cache\Redis\RedisClient;
+use Swoft\Bean\Annotation\Inject;
 
 
 /**
  * @Bean()
- * @uses      FileSessionHandler
+ * @uses      RedisSessionHandler
  * @version   2017年12月05日
  * @author    huangzhhui <huangzhwork@gmail.com>
  * @copyright Copyright 2010-2017 Swoft software
@@ -33,6 +33,12 @@ class RedisSessionHandler implements \SessionHandlerInterface
     private $minutes;
 
     /**
+     * @Inject()
+     * @var \Swoft\Redis\Redis
+     */
+    private $redis;
+
+    /**
      * RedisSessionHandler constructor.
      *
      * @param int $minutes
@@ -55,7 +61,7 @@ class RedisSessionHandler implements \SessionHandlerInterface
      */
     public function destroy($sessionId)
     {
-        return (bool)RedisClient::del($this->key($sessionId));
+        return (bool)$this->redis->delete($this->key($sessionId));
     }
 
     /**
@@ -79,7 +85,7 @@ class RedisSessionHandler implements \SessionHandlerInterface
      */
     public function read($sessionId)
     {
-        $value = RedisClient::get($this->key($sessionId));
+        $value = $this->redis->get($this->key($sessionId));
         return $value ? $this->unserialize($value) : '';
     }
 
@@ -88,7 +94,7 @@ class RedisSessionHandler implements \SessionHandlerInterface
      */
     public function write($sessionId, $data)
     {
-        return (bool)RedisClient::set($this->key($sessionId), $this->serialize($data));
+        return (bool)$this->redis->set($this->key($sessionId), $this->serialize($data));
     }
 
     /**
