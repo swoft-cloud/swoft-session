@@ -167,7 +167,7 @@ class SessionMiddleware implements MiddlewareInterface
     private function addCookieToResponse(Request $request, Response $response, SessionInterface $session): Response
     {
         $uri = $request->getUri();
-        $path = $uri->getPath();
+        $path = '/';
         $domain = $uri->getHost();
         $secure = strtolower($uri->getScheme()) === 'https';
         $httpOnly = true;
@@ -181,8 +181,12 @@ class SessionMiddleware implements MiddlewareInterface
      */
     protected function getCookieExpirationDate()
     {
-        return (isset($this->config['expire_on_close']) && $this->config['expire_on_close']) ? 0 : Carbon::now()
-                                                                                                         ->addMinutes(5 * 60);
+        if (!empty($this->config['expire_on_close'])) {
+            $expirationDate = 0;
+        } else {
+            $expirationDate = Carbon::now()->addMinutes(5 * 60);
+        }
+        return $expirationDate;
     }
 
     /**
