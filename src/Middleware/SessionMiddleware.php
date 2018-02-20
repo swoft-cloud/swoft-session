@@ -10,7 +10,7 @@ use Swoft\App;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Bean\Annotation\Inject;
 use Swoft\Helper\ArrayHelper;
-use Swoft\Middleware\MiddlewareInterface;
+use Swoft\Http\Message\Middleware\MiddlewareInterface;
 use Swoft\Http\Message\Cookie\Cookie;
 use Swoft\Http\Message\Server\Request;
 use Swoft\Http\Message\Server\Response;
