@@ -125,7 +125,7 @@ class RedisSessionHandler implements \SessionHandlerInterface
      */
     protected function unserialize($value)
     {
-        return is_numeric($value) ? $value : unserialize($value, null);
+        return is_numeric($value) ? $value : unserialize($value, []);
     }
 
 }
