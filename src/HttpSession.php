@@ -140,7 +140,7 @@ class HttpSession implements ArrayAccess, SessionInterface, IteratorAggregate
      * @param string $key
      * @param mixed  $value
      */
-    public function set(string $key, $value): void
+    public function set(string $key, $value): bool
     {
         // Load latest data
         $this->loadData();
@@ -149,6 +149,9 @@ class HttpSession implements ArrayAccess, SessionInterface, IteratorAggregate
 
         // Save new session data
         $this->saveData();
+
+        //return session has
+        return $this->has($key);
     }
 
     /**
